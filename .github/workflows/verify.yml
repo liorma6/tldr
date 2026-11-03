@@ -1,4 +1,5 @@
 name: Verify Hebrew git-status translation
+run-name: Compare the original pages with the Hebrew git-status translation
 on:
   push:
     branches:
