@@ -1,0 +1,41 @@
+name: Verify Hebrew git-status translation
+on:
+  push:
+    branches:
+      - ci/verify-git-status-he
+permissions:
+  contents: read
+jobs:
+  verify:
+    name: Repository checks ${{ matrix.version }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - version: baseline
+            ref: b26f805c35ad71b39d8a3c73930705eca1f6369e
+          - version: translation
+            ref: 75c83deb9bea6095fd0c9dfdb26124abcff34382
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: liorma6/tldr
+          ref: ${{ matrix.ref }}
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 'lts/*'
+      - name: Install locked JavaScript dependencies
+        run: npm ci
+      - name: Install Python validation dependencies
+        run: pip install -r requirements.txt -r scripts/pdf/requirements.txt -r scripts/test-requirements.txt
+      - name: Run the repository test suite
+        run: npm test
+      - name: Build the repository
+        run: bash scripts/build.sh
