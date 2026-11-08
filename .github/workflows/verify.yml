@@ -1,9 +1,9 @@
-name: Verify Hebrew git-init translation
-run-name: Compare the original pages with the Hebrew git-init translation
+name: Verify Hebrew git-show translation
+run-name: Compare the original pages with the Hebrew git-show translation
 on:
   push:
     branches:
-      - ci/verify-git-init-he
+      - ci/verify-git-show-he
 permissions:
   contents: read
 jobs:
@@ -16,9 +16,9 @@ jobs:
       matrix:
         include:
           - version: baseline
-            ref: cd2bed84c9318e39e00b6d0cb9649b1fa1d7caf9
+            ref: 758e8f23e08dcc26023eac7544c4d502e728b0de
           - version: translation
-            ref: b62328d0d099007c3c03678394ed6e1371affd42
+            ref: 0963858f8cf33565414721a2f3292c934b54bdda
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
